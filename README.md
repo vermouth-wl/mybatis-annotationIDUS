@@ -1,0 +1,2 @@
+# mybatis-annotationIDUS
+mybatis基于annotation的增删改查
