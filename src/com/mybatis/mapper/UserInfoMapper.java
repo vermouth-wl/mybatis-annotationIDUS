@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @Classname UserInfoMapper
- * @Description TODO
+ * @Description TODO 实现对用户增删改查
  * @Author 将烬星火是否太炽热, 明日黄花会开败阡陌
  * @Date 2020-10-18 15:02
  * @Version 1.0
