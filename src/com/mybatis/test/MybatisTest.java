@@ -1,6 +1,8 @@
 package com.mybatis.test;
 
+import com.mybatis.mapper.IdcardMapper;
 import com.mybatis.mapper.UserInfoMapper;
+import com.mybatis.pojo.Idcard;
 import com.mybatis.pojo.UserInfo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -25,7 +27,7 @@ import java.util.List;
  * @Date 2020-10-18 15:59
  * @Version 1.0
  **/
-public class UserInfoTest {
+public class MybatisTest {
     // SqlSessionFactory工厂
     private SqlSessionFactory sqlSessionFactory;
     // SqlSession
@@ -135,6 +137,16 @@ public class UserInfoTest {
             List<UserInfo> userInfoList = userInfoMapper.findAllUser();
             userInfoList.forEach(e -> System.out.println(e.userInfo()));
         }
+    }
+
+    // 一对一关联查询，查询用户信息查询出对应的身份证号信息
+    @Test
+    public void findIdcardById() {
+        // 获取接口代理对象
+        IdcardMapper idcardMapper = sqlSession.getMapper(IdcardMapper.class);
+        // 调用接口方法
+        Idcard idcard = idcardMapper.findIdcardById(1);
+        System.out.println(idcard);
     }
 
     // 后置方法

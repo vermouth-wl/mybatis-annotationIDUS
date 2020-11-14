@@ -25,5 +25,6 @@
     <!--  引用接口  -->
     <mappers>
         <mapper class="com.mybatis.mapper.UserInfoMapper"/>
+        <mapper class="com.mybatis.mapper.IdcardMapper"/>
     </mappers>
 </configuration>

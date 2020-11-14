@@ -24,6 +24,7 @@ public class UserInfo {
     private Integer classId;
     private Integer status;
 
+
     public String userInfo() {
         return "该用户的用户编码: " + userCode + ", " +
                 "用户名: " + userName + ", " +
