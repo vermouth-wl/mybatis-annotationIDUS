@@ -2,7 +2,7 @@ package com.mybatis.pojo;
 
 /**
  * @Classname Idcard
- * @Description TODO 身份证实体类
+ * @Description TODO 身份证实体类， 与UserInfo关系为一对一
  * @Author 将烬星火是否太炽热, 明日黄花会开败阡陌
  * @Date 2020-11-14 12:33
  * @Version 1.0

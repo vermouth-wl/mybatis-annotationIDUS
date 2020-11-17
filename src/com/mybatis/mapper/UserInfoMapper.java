@@ -41,6 +41,28 @@ public interface UserInfoMapper {
     })
     public List<UserInfo> findUserByUsernameLike(String userName);
 
+    // 一对多查询
+    // 根据班级编号查询所有用户
+    @Select("select * from userinfo t where t.class_id = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "userCode", column = "user_code"),
+            @Result(property = "userName", column = "user_name")
+    })
+    public List<UserInfo> findUserInfoByClassId(Integer id);
+
+    // 一对一查询
+    // 根据用户编号查询用户
+    @Select("select * from userinfo t where t.id = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "id"),
+            @Result(property = "userCode", column = "user_code"),
+            @Result(property = "userName", column = "user_name"),
+            // 一对一关联属性字段
+            @Result(property = "clazz", column = "class_id", one = @One(select = "com.mybatis.mapper.ClassMapper.findClassById"))
+    })
+    public UserInfo findUserInfoById(Integer id);
+
     // 插入数据
     @Insert("insert into userinfo(user_code, user_name, password, name, email, phone, address, regDate, status, class_id) " +
             "values(#{userCode}, #{userName}, #{password}, #{name}, #{email}, #{phone}, #{address}, #{regDate}, #{status}, #{classId})")

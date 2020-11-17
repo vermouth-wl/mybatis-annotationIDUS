@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.mapper.xml.ClassMapper">
+    <resultMap id="classMap" type="clazz">
+        <id property="id" column="id"/>
+        <result property="classCode" column="class_code"/>
+        <result property="className" column="class_name"/>
+        
+        <collection property="userInfos" ofType="UserInfo">
+            <id property="id" column="id"/>
+            <result property="userCode" column="user_code"/>
+            <result property="userName" column="user_name"/>
+            <result property="name" column="name"/>
+            <result property="email" column="email"/>
+            <result property="phone" column="phone"/>
+            <result property="address" column="address"/>
+            <result property="regDate" column="regDate"/>
+        </collection>
+    </resultMap>
+</mapper>

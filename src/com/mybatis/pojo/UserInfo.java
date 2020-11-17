@@ -21,11 +21,22 @@ public class UserInfo {
     private String phone;
     private String address;
     private Date regDate;
-    private Integer classId;
     private Integer status;
-
+    // 关联属性，多对一关系，关联班级
+    private Clazz clazz;
 
     public String userInfo() {
+        return "该用户的用户编码: " + userCode + ", " +
+                "用户名: " + userName + ", " +
+                "姓名: " + name + ", " +
+                "邮箱地址: " + email + ", " +
+                "联系电话: " + phone + ", " +
+                "联系地址: " + address + ", " +
+                "注册时间: " + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(regDate);
+    }
+
+    @Override
+    public String toString() {
         return "该用户的用户编码: " + userCode + ", " +
                 "用户名: " + userName + ", " +
                 "姓名: " + name + ", " +
@@ -107,19 +118,19 @@ public class UserInfo {
         this.regDate = regDate;
     }
 
-    public Integer getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
-
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Clazz getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Clazz clazz) {
+        this.clazz = clazz;
     }
 }

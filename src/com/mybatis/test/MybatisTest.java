@@ -1,7 +1,11 @@
 package com.mybatis.test;
 
+import com.mybatis.mapper.AdminMapper;
+import com.mybatis.mapper.ClassMapper;
 import com.mybatis.mapper.IdcardMapper;
 import com.mybatis.mapper.UserInfoMapper;
+import com.mybatis.pojo.Admin;
+import com.mybatis.pojo.Clazz;
 import com.mybatis.pojo.Idcard;
 import com.mybatis.pojo.UserInfo;
 import org.apache.ibatis.io.Resources;
@@ -89,7 +93,6 @@ public class MybatisTest {
         userInfo.setAddress("北京市西城区");
         userInfo.setRegDate(new Date());
         userInfo.setStatus(1);
-        userInfo.setClassId(1);
         // 调用接口方法
         int result = userInfoMapper.addNewUser(userInfo);
         if (result > -1) {
@@ -141,12 +144,56 @@ public class MybatisTest {
 
     // 一对一关联查询，查询用户信息查询出对应的身份证号信息
     @Test
-    public void findIdcardById() {
+    public void testOne2one() {
         // 获取接口代理对象
         IdcardMapper idcardMapper = sqlSession.getMapper(IdcardMapper.class);
         // 调用接口方法
         Idcard idcard = idcardMapper.findIdcardById(1);
         System.out.println(idcard);
+    }
+
+    // 一对多关联查询，查询班级信息查询出对应的班级用户信息
+    @Test
+    public void testOne2Many() {
+        // 获取接口代理对象
+        ClassMapper classMapper = sqlSession.getMapper(ClassMapper.class);
+        // 直接调用接口对象，查询出班级对象及其关联的用户对象
+        List<Clazz> classList = classMapper.findClassById(4);
+        classList.forEach(e -> System.out.println(e.classMessage()));
+    }
+
+    // 多对一关联查询，通过查询用户信息查询出对应班级信息
+    @Test
+    public void testMany2one() {
+        // 获取接口代理对象
+        UserInfoMapper userInfoMapper = sqlSession.getMapper(UserInfoMapper.class);
+        // 调用接口方法，查询userInfo对象
+        UserInfo userInfo = userInfoMapper.findUserInfoById(1);
+        System.out.println("用户信息: " + userInfo.userInfo());
+        System.out.println("班级信息: " + userInfo.getClazz().getClassName());
+    }
+
+    // 一对多嵌套结果查询
+    @Test
+    public void testOne2manyResult() {
+        // 获取接口代理对象
+        ClassMapper classMapper = sqlSession.getMapper(ClassMapper.class);
+        // 实例化Clazz对象，封装条件
+        Clazz clazz = new Clazz();
+        clazz.setClassCode("109");
+        // 执行接口方法
+        List<Clazz> clazzes = classMapper.findClazzByClassCode(clazz);
+        clazzes.forEach(e -> System.out.println(e.classMessage()));
+    }
+
+    // 多对多查询
+    @Test
+    public void testMany2Many() {
+        // 获取接口代理对象
+        AdminMapper adminMapper = sqlSession.getMapper(AdminMapper.class);
+        // 执行接口方法
+        Admin admin = adminMapper.findAdminById(1);
+        System.out.println(admin);
     }
 
     // 后置方法
