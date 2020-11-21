@@ -1,5 +1,6 @@
 package com.mybatis.mapper.dynaClass;
 
+import com.mybatis.pojo.UserInfo;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -29,6 +30,72 @@ public class UserInfoDynaSqlProvider {
                 if (param.get("userCode") != null) {
                     WHERE("user_code = #{userCode}");
                 }
+            }
+        }.toString();
+    }
+
+    // 新增方法
+    // 拼接SQL
+    public String insertUserInfo(UserInfo userInfo) {
+        return new SQL() {
+            {
+                INSERT_INTO("userinfo");
+                if (userInfo.getUserCode() != null) {
+                    VALUES("user_code", "#{userCode}");
+                }
+                if (userInfo.getUserName() != null) {
+                    VALUES("user_name", "#{userName}");
+                }
+                if (userInfo.getPassword() != null) {
+                    VALUES("password", "#{password}");
+                }
+                if (userInfo.getName() != null) {
+                    VALUES("name", "#{name}");
+                }
+                if (userInfo.getEmail() != null) {
+                    VALUES("email", "#{email}");
+                }
+                if (userInfo.getPhone() != null) {
+                    VALUES("phone", "#{phone}");
+                }
+                if (userInfo.getAddress() != null) {
+                    VALUES("address", "#{address}");
+                }
+                if (userInfo.getRegDate() != null) {
+                    VALUES("regDate", "#{regDate}");
+                }
+                if (userInfo.getStatus() != null) {
+                    VALUES("status", "#{status}");
+                }
+                if (userInfo.getClazz() != null) {
+                    VALUES("class_id", "#{clazz}");
+                }
+            }
+        }.toString();
+    }
+
+    // 更新方法
+    // 拼接SQL
+    public String updateUserInfo(UserInfo userInfo) {
+        return new SQL() {
+            {
+                UPDATE("userinfo");
+                if (userInfo.getUserName() != null) {
+                    SET("user_name = #{userName}");
+                }
+                if (userInfo.getPassword() != null) {
+                    SET("password = #{password}");
+                }
+                if (userInfo.getEmail() != null) {
+                    VALUES("email", "#{email}");
+                }
+                if (userInfo.getPhone() != null) {
+                    VALUES("phone", "#{phone}");
+                }
+                if (userInfo.getAddress() != null) {
+                    VALUES("address", "#{address}");
+                }
+                WHERE("id = #{id}");
             }
         }.toString();
     }

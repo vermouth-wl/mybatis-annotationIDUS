@@ -15,9 +15,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -199,7 +196,7 @@ public class MybatisTest {
     @Test
     public void testFindUserInfoByCond() {
         // 获取UserInfoMapperDyna的接口代理对象
-        UseInfoMapperDyna userInfoMapperDyna = sqlSession.getMapper(UseInfoMapperDyna.class);
+        UserInfoMapperDyna userInfoMapperDyna = sqlSession.getMapper(UserInfoMapperDyna.class);
         // 使用map类型对象封装查询条件
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("userCode", "W001");
@@ -207,6 +204,63 @@ public class MybatisTest {
         // 调用接口方法
         List<UserInfo> userInfos = userInfoMapperDyna.findUserInfoByCond(param);
         userInfos.forEach(e -> System.out.println(e.userInfo()));
+    }
+
+    // 动态SQL之InsertProvider
+    @Test
+    public void testInsertUserInfo() {
+        // 获取UserInfoMapperDyna的接口代理对象
+        UserInfoMapperDyna userInfoMapperDyna = sqlSession.getMapper(UserInfoMapperDyna.class);
+        // 实例化UserInfo对象，对属性赋值
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserCode("Y002");
+        userInfo.setUserName("叶天帝");
+        userInfo.setPassword("123456");
+        userInfo.setName("叶凡");
+        userInfo.setEmail("yefan@163.com");
+        userInfo.setPhone("13340340021");
+        userInfo.setAddress("南域荒古禁地");
+        userInfo.setRegDate(new Date());
+        userInfo.setStatus(1);
+
+        // 调用接口方法
+        int result = userInfoMapperDyna.insertUserInfo(userInfo);
+        if (result > 0) {
+            System.out.println("新增用户成功, 正在重新执行查询...");
+            // 查询所有用户
+            Map<String, Object> params = new HashMap<String, Object>();
+            // 调用接口方法
+            List<UserInfo> userInfos = userInfoMapperDyna.findUserInfoByCond(params);
+            userInfos.forEach(e -> System.out.println(e.userInfo()));
+        } else {
+            System.out.println("新增用户失败");
+        }
+
+    }
+
+    // 动态SQL之@UpdateProvider
+    @Test
+    public void testUpdateUserInfo() {
+        // 获取UserInfoMapperDyna的接口代理对象
+        UserInfoMapperDyna userInfoMapperDyna = sqlSession.getMapper(UserInfoMapperDyna.class);
+        // 使用Map封装查询条件
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("id", 16);
+        // 调用接口方法，查询id为16的用户
+        UserInfo userInfo = userInfoMapperDyna.findUserInfoByCond(param).get(0);
+        // 修改密码
+        userInfo.setPassword("ye_fan123");
+        // 调用接口更新
+        int result = userInfoMapperDyna.updateUserInfo(userInfo);
+        if (result > -1) {
+            System.out.println("更新用户成功, 正在重新执行查询...");
+            // 查询所有用户
+            // Map<String, Object> params = new HashMap<String, Object>();
+            List<UserInfo> userInfos = userInfoMapperDyna.findUserInfoByCond(param);
+            userInfos.forEach(e -> System.out.println(e.userInfo()));
+        } else {
+            System.out.println("更新用户失败");
+        }
     }
 
     // 后置方法

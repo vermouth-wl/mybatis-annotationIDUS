@@ -2,9 +2,7 @@ package com.mybatis.mapper;
 
 import com.mybatis.mapper.dynaClass.UserInfoDynaSqlProvider;
 import com.mybatis.pojo.UserInfo;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +14,9 @@ import java.util.Map;
  * @Date 2020-11-21 15:53
  * @Version 1.0
  **/
-public interface UseInfoMapperDyna {
+public interface UserInfoMapperDyna {
 
+    // 基于注解的动态查询之@SelectProvider
     @SelectProvider(type = UserInfoDynaSqlProvider.class, method = "selectWithParam")
     @Results({
             @Result(id = true, property = "id", column = "id"),
@@ -25,4 +24,13 @@ public interface UseInfoMapperDyna {
             @Result(property = "userName", column = "user_name")
     })
     public List<UserInfo> findUserInfoByCond(Map<String, Object> param);
+
+    // 基于注解的动态SQL之@InsertProvider
+    @InsertProvider(type = UserInfoDynaSqlProvider.class, method = "insertUserInfo")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    public int insertUserInfo(UserInfo userInfo);
+
+    // 基于动态注解的动态SQL之@UpdateProvider
+    @UpdateProvider(type = UserInfoDynaSqlProvider.class, method = "updateUserInfo")
+    public int updateUserInfo(UserInfo userInfo);
 }
