@@ -29,6 +29,7 @@
         <mapper class="com.mybatis.mapper.ClassMapper"/>
         <mapper class="com.mybatis.mapper.AdminMapper"/>
         <mapper class="com.mybatis.mapper.FunctionMapper"/>
+        <mapper class="com.mybatis.mapper.UseInfoMapperDyna"/>
         <mapper resource="com/mybatis/mapper/xml/ClassMapper.xml"/>
     </mappers>
 </configuration>

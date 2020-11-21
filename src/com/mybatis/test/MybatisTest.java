@@ -1,9 +1,6 @@
 package com.mybatis.test;
 
-import com.mybatis.mapper.AdminMapper;
-import com.mybatis.mapper.ClassMapper;
-import com.mybatis.mapper.IdcardMapper;
-import com.mybatis.mapper.UserInfoMapper;
+import com.mybatis.mapper.*;
 import com.mybatis.pojo.Admin;
 import com.mybatis.pojo.Clazz;
 import com.mybatis.pojo.Idcard;
@@ -22,7 +19,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Classname UserInfoTest
@@ -194,6 +193,20 @@ public class MybatisTest {
         // 执行接口方法
         Admin admin = adminMapper.findAdminById(1);
         System.out.println(admin);
+    }
+
+    // 动态SQL之SelectProvider
+    @Test
+    public void testFindUserInfoByCond() {
+        // 获取UserInfoMapperDyna的接口代理对象
+        UseInfoMapperDyna userInfoMapperDyna = sqlSession.getMapper(UseInfoMapperDyna.class);
+        // 使用map类型对象封装查询条件
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userCode", "W001");
+        param.put("userName", "王磊");
+        // 调用接口方法
+        List<UserInfo> userInfos = userInfoMapperDyna.findUserInfoByCond(param);
+        userInfos.forEach(e -> System.out.println(e.userInfo()));
     }
 
     // 后置方法
