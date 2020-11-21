@@ -99,4 +99,20 @@ public class UserInfoDynaSqlProvider {
             }
         }.toString();
     }
+
+    // 删除方法
+    // 拼接SQL
+    public String deleteUserInfo(Map<String, Object> param) {
+        return new SQL() {
+            {
+                DELETE_FROM("userinfo");
+                if (param.get("id") != null) {
+                    WHERE("id = #{id}");
+                }
+                if (param.get("userCode") != null) {
+                    WHERE("user_code = #{userCode}");
+                }
+            }
+        }.toString();
+    }
 }

@@ -30,7 +30,11 @@ public interface UserInfoMapperDyna {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     public int insertUserInfo(UserInfo userInfo);
 
-    // 基于动态注解的动态SQL之@UpdateProvider
+    // 基于注解的动态SQL之@UpdateProvider
     @UpdateProvider(type = UserInfoDynaSqlProvider.class, method = "updateUserInfo")
     public int updateUserInfo(UserInfo userInfo);
+
+    // 基于注解的动态SQL之@DeleteProvider
+    @DeleteProvider(type = UserInfoDynaSqlProvider.class, method = "deleteUserInfo")
+    public int deleteUserInfo(Map<String, Object> param);
 }

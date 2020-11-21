@@ -213,29 +213,37 @@ public class MybatisTest {
         UserInfoMapperDyna userInfoMapperDyna = sqlSession.getMapper(UserInfoMapperDyna.class);
         // 实例化UserInfo对象，对属性赋值
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserCode("Y002");
-        userInfo.setUserName("叶天帝");
+        userInfo.setUserCode("H001");
+        userInfo.setUserName("荒天帝");
         userInfo.setPassword("123456");
-        userInfo.setName("叶凡");
-        userInfo.setEmail("yefan@163.com");
-        userInfo.setPhone("13340340021");
-        userInfo.setAddress("南域荒古禁地");
+        userInfo.setName("石昊");
+        userInfo.setEmail("shihao@163.com");
+        userInfo.setPhone("13195765622");
+        userInfo.setAddress("罪洲");
         userInfo.setRegDate(new Date());
         userInfo.setStatus(1);
 
-        // 调用接口方法
-        int result = userInfoMapperDyna.insertUserInfo(userInfo);
-        if (result > 0) {
-            System.out.println("新增用户成功, 正在重新执行查询...");
-            // 查询所有用户
-            Map<String, Object> params = new HashMap<String, Object>();
+        // 判断用户编码是否存在，已存在则不能添加
+        // 使用map对象封装查询条件
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userCode", userInfo.getUserCode());
+        List<UserInfo> userInfoList = userInfoMapperDyna.findUserInfoByCond(param);
+        if (userInfoList.isEmpty()) {
             // 调用接口方法
-            List<UserInfo> userInfos = userInfoMapperDyna.findUserInfoByCond(params);
-            userInfos.forEach(e -> System.out.println(e.userInfo()));
+            int result = userInfoMapperDyna.insertUserInfo(userInfo);
+            if (result > 0) {
+                System.out.println("新增用户成功, 正在重新执行查询...");
+                // 查询所有用户
+                Map<String, Object> params = new HashMap<String, Object>();
+                // 调用接口方法
+                List<UserInfo> userInfos = userInfoMapperDyna.findUserInfoByCond(params);
+                userInfos.forEach(e -> System.out.println(e.userInfo()));
+            } else {
+                System.out.println("新增用户失败");
+            }
         } else {
-            System.out.println("新增用户失败");
+            System.out.println("该用户已存在");
         }
-
     }
 
     // 动态SQL之@UpdateProvider
@@ -260,6 +268,31 @@ public class MybatisTest {
             userInfos.forEach(e -> System.out.println(e.userInfo()));
         } else {
             System.out.println("更新用户失败");
+        }
+    }
+
+    // 动态SQL之@DeleteProvider
+    @Test
+    public void testDeleteUserInfo() {
+        // 获取UserInfoMapperDyna的接口代理对象
+        UserInfoMapperDyna userInfoMapperDyna = sqlSession.getMapper(UserInfoMapperDyna.class);
+        // 使用map对象封装条件
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("userCode", "C001");
+        // 先调用查询接口查询是否有符合条件的记录
+        List<UserInfo> userInfos = userInfoMapperDyna.findUserInfoByCond(param);
+        if (userInfos.isEmpty()) {
+            System.out.println("没有找到符合条件的记录");
+        } else {
+            int result = userInfoMapperDyna.deleteUserInfo(param);
+            if (result > 0) {
+                System.out.println("删除成功, 正在执行重新查询...");
+                // 使用map对象封装查询对象
+                Map<String, Object> params = new HashMap<String, Object>();
+                // 调用查询接口查询所有用户
+                List<UserInfo> userInfos1 = userInfoMapperDyna.findUserInfoByCond(params);
+                userInfos1.forEach(e -> System.out.println(e.userInfo()));
+            }
         }
     }
 
